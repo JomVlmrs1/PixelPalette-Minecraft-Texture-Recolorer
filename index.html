@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Texture Color Changer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            display: inline-block;
+            text-align: left;
+        }
+
+        input, textarea, button {
+            display: block;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minecraft Texture Color Changer</h1>
+    <div class="container">
+        <input type="file" id="textureUpload" accept=".png, .jpg, .jpeg, .zip" />
+        <textarea id="hexCode" placeholder="#ff0000"></textarea>
+        <button id="applyColor">Apply Color</button>
+    </div>
+    <script>
+        document.getElementById('applyColor').addEventListener('click', function () {
+            const fileInput = document.getElementById('textureUpload');
+            const hexCode = document.getElementById('hexCode');
+            const selectedColor = hexCode.value;
+
+            if (fileInput.files.length === 0) {
+                alert('Please upload a texture file.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    const newColor = hexToRgb(selectedColor);
+                    const imgWidth = img.width;
+                    const imgHeight = img.height;
+
+                    alert('Color application functionality requires a canvas or a different approach.');
+                };
+
+                img.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        function hexToRgb(hex) {
+            const bigint = parseInt(hex.replace('#', ''), 16);
+            return {
+                r: (bigint >> 16) & 255,
+                g: (bigint >> 8) & 255,
+                b: bigint & 255
+            };
+        }
+    </script>
+</body>
+</html>
